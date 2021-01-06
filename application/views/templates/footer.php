@@ -31,8 +31,8 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url('template/'); ?>js/sb-admin-2.min.js"></script>
 
+<script src="<?= base_url('template/'); ?>js/jquery.mask.js"></script>
+
 <!-- Page level plugins -->
 <script src="<?= base_url('template/'); ?>vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('template/'); ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-<script src="<?= base_url('template/'); ?>vendor/select2/dist/js/select2.full.min.js"></script>

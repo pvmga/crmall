@@ -7,4 +7,9 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
     }
 
+    public function formatarData($data) {
+        $str = explode('/', $data);
+        return $str[2].'-'.$str[0].'-'.$str[1];
+    }
+
 }

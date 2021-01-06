@@ -15,7 +15,6 @@ class Cliente extends MY_Controller {
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
         $this->load->view('telas/view_cliente_listagem');
-        $this->load->view('templates/modal');
         $this->load->view('templates/footer');
         $this->load->view('ajax/clientesListagem');
     }
@@ -26,8 +25,7 @@ class Cliente extends MY_Controller {
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar');
         $this->load->view('templates/topbar');
-        $this->load->view('telas/view_chamado_cadastro');
-        $this->load->view('templates/modal');
+        $this->load->view('telas/view_cliente_cadastro');
         $this->load->view('templates/footer');
         $this->load->view('ajax/clientesCadastro');
     }
@@ -56,25 +54,28 @@ class Cliente extends MY_Controller {
         $this->load->model('cliente_models');
 
         $dados = $this->input->post('dados');
-        $arquivos = json_decode($dados['arquivos']);
 
         $tarefa = array(
-            'cod_empresa' => $dados['cod_empresa'],
-            'nome' => $dados['nome']
+            'codigo' => $dados['codigo_cliente'],
+            'nome' => $dados['nome'],
+            'data_nascimento' => $this->formatarData($dados['data_nascimento_cliente']),
+            'sexo' => $dados['sexo_cliente'],
+            'cep' => $dados['cep_cliente'],
+            'endereco' => $dados['endereco_cliente'],
+            'numero' => $dados['numero_cliente'],
+            'complemento' => $dados['complemento_cliente'],
+            'bairro' => $dados['bairro_cliente'],
+            'estado' => $dados['estado_cliente'],
+            'cidade' => $dados['cidade_cliente'],
         );
 
-        // UPDATE OU INSERT DA TAREFA
-        if ($dados['codigo_chamado'] == 0) {
-            $cod_tarefa = $this->chamado_models->insertChamadoModels($tarefa);
+        if ($dados['codigo_cliente'] == 0) {
+            $res = $this->cliente_models->insertClienteModels($tarefa);
         } else {
-            if ($tarefa['prioridade'] == 'Resolvido') {
-                $tarefa['data_fechamento'] = date('Y-m-d H:i:s');
-            }
-            // UPDATE RETORNANDO O CÓDIGO DA TAREFA.
-            $this->chamado_models->updateChamado($tarefa, $dados['codigo_chamado']);
+            $res = $this->cliente_models->updateCliente($tarefa, $dados['codigo_cliente']);
         }
 
-        echo json_encode($result);
+        echo json_encode($res);
     }
 
 }

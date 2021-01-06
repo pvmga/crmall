@@ -51,12 +51,12 @@ class Cliente_models extends CI_Model {
 
     
 
-    public function insertChamadoModels($cliente) {
+    public function insertClienteModels($cliente) {
         $this->db->insert('clientes', $cliente);
         return $this->db->insert_id();
     }
    
-    public function updateChamado($dados, $cod_chamado) {
+    public function updateCliente($dados, $cod_chamado) {
         $this->db->where('codigo', $cod_chamado);
         $query = $this->db->update('clientes', $dados);
         return $query;

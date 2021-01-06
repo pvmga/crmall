@@ -33,7 +33,7 @@ class Cliente extends MY_Controller {
     public function listagemClientes() {
         $this->load->model('cliente_models');
 
-        $data = $this->cliente_models->listaClientes();
+        $data = $this->cliente_models->listaClientes(0);
 
         if ($data == NULL) {
             $data['data'] = array();
@@ -54,8 +54,7 @@ class Cliente extends MY_Controller {
         $this->load->model('cliente_models');
 
         $dados = $this->input->post('dados');
-
-        $tarefa = array(
+        $cliente = array(
             'codigo' => $dados['codigo_cliente'],
             'nome' => $dados['nome'],
             'data_nascimento' => $this->formatarData($dados['data_nascimento_cliente']),
@@ -69,13 +68,24 @@ class Cliente extends MY_Controller {
             'cidade' => $dados['cidade_cliente'],
         );
 
+        
+
         if ($dados['codigo_cliente'] == 0) {
-            $res = $this->cliente_models->insertClienteModels($tarefa);
+            $res = $this->cliente_models->insertClienteModels($cliente);
         } else {
-            $res = $this->cliente_models->updateCliente($tarefa, $dados['codigo_cliente']);
+            $res = $this->cliente_models->updateCliente($cliente, $dados['codigo_cliente']);
         }
 
         echo json_encode($res);
+    }
+
+    public function buscarCliente() {
+        $this->load->model('cliente_models');
+
+        $codigoCliente = $this->input->post('codigo_cliente');
+
+        $data['dadosCliente'] = $this->cliente_models->listaClientes($codigoCliente);
+        echo json_encode($data);
     }
 
 }

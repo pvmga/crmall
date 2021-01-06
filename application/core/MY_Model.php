@@ -7,5 +7,10 @@ class MY_Model extends CI_Model {
 
     public function __construct() {
 		parent::__construct();
-	}
+    }
+    
+    public function formatarDataModel($data) {
+        $str = explode('-', $data);
+        return $str[2].'/'.$str[1].'/'.$str[0];
+    }
 }

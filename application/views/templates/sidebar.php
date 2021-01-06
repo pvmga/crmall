@@ -18,7 +18,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('chamado_listagem'); ?>">
+                <a class="nav-link" href="<?= base_url('cliente'); ?>">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>CADASTRO</span></a>
             </li>

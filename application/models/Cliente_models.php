@@ -3,27 +3,17 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Cliente_models extends CI_Model {
+class Cliente_models extends MY_Model {
 
     public function __construct() {
         parent::__construct();
     }
 
-    public function listaClientes() {
-
-        $sql = "select 
-                    t.codigo,
-                    t.nome,
-                    t.data_nascimento,
-                    t.sexo,
-                    t.cep,
-                    t.endereco,
-                    t.numero,
-                    t.complemento,
-                    t.bairro,
-                    t.estado,
-                    t.cidade
-            from clientes t";
+    public function listaClientes($codigoCliente) {
+        $where = ($codigoCliente == 0) ? '' : " where codigo = " . $codigoCliente;
+        $sql = "select *
+            from clientes
+            $where";
 
         $query = $this->db->query($sql);
 
@@ -37,8 +27,15 @@ class Cliente_models extends CI_Model {
                 $data['data'][] = [
                     'codigo' => $cliente['codigo'],
                     'nome' => $cliente['nome'],
-                    'data_nascimento' => $cliente['data_nascimento'],
+                    'data_nascimento' => $this->formatarDataModel($cliente['data_nascimento']),
                     'sexo' => $cliente['sexo'],
+                    'cep' => $cliente['cep'],
+                    'endereco' => $cliente['endereco'],
+                    'numero' => $cliente['numero'],
+                    'complemento' => $cliente['complemento'],
+                    'bairro' => $cliente['bairro'],
+                    'estado' => $cliente['estado'],
+                    'cidade' => $cliente['cidade'],
                     'alterar' => "<a href=". $alterarCliente ." class='btn btn-warning btn-circle' title='Alterar cliente'><i class='fas fa-exclamation-triangle'></i></a>",
                     'excluir' => "<button class='btn btn-danger btn-circle' title='Excluir cliente' onclick=" . $excluirCliente . "><i class='fas fa-info-circle'></i></button>",
                 ];
@@ -56,8 +53,8 @@ class Cliente_models extends CI_Model {
         return $this->db->insert_id();
     }
    
-    public function updateCliente($dados, $cod_chamado) {
-        $this->db->where('codigo', $cod_chamado);
+    public function updateCliente($dados, $cod_cliente) {
+        $this->db->where('codigo', $cod_cliente);
         $query = $this->db->update('clientes', $dados);
         return $query;
     }

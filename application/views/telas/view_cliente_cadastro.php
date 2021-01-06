@@ -41,7 +41,7 @@
         <div class="col-lg-2">
             <div class="form-group input-group-sm">
                 <label>CEP: </label>
-                <input class="form-control input-lg small" id="cep_cliente" maxlength="9" placeholder="87000-000">
+                <input class="form-control input-lg small" id="cep_cliente" maxlength="9" placeholder="87000-000" onchange="buscarCep();">
             </div>
         </div>
 

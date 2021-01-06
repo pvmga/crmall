@@ -1,25 +1,33 @@
 <script type="text/javascript">
 
     $('#data_nascimento_cliente').mask('00/00/0000');
+    $('#cep_cliente').mask('00000-000');
     
     if ($('#codigo_cliente').val() != 0) {
         var request = $.ajax({
-            url: URL + "buscarChamadoModal",
+            url: URL + "buscarCliente",
             method: "POST",
-            data: {codigo: $('#codigo_cliente').val()},
+            data: {codigo_cliente: $('#codigo_cliente').val()},
             dataType: "json",
         });
 
         request.done(function (res) {
-
-            $('#contato_chamado').val(res[0]['solicitante']);
-            
-            $(".select2Empresa option:selected").val(res[0]['cod_empresa']);
+            //console.log(res);
+            $('#nome_cliente').val(res['dadosCliente']['data'][0]['nome']);
+            $('#data_nascimento_cliente').val(res['dadosCliente']['data'][0]['data_nascimento']);
+            $('#sexo_cliente').val(res['dadosCliente']['data'][0]['sexo']);
+            $('#cep_cliente').val(res['dadosCliente']['data'][0]['cep']);
+            $('#endereco_cliente').val(res['dadosCliente']['data'][0]['endereco']);
+            $('#numero_cliente').val(res['dadosCliente']['data'][0]['numero']);
+            $('#complemento_cliente').val(res['dadosCliente']['data'][0]['complemento']);
+            $('#bairro_cliente').val(res['dadosCliente']['data'][0]['bairro']);
+            $('#estado_cliente').val(res['dadosCliente']['data'][0]['estado']);
+            $('#cidade_cliente').val(res['dadosCliente']['data'][0]['cidade']);
         });
 
         request.fail(function (jqXHR, textStatus) {
             console.log(jqXHR, textStatus);
-            alert("Request failed - buscarChamadoModal : " + textStatus);
+            alert("Request failed - buscarCliente : " + textStatus);
         });
     }
 
@@ -73,7 +81,9 @@
         });
 
         request.done(function (msg) {
-           console.log(msg);
+            //alert('Salvo com sucesso!');
+            //location.href = URL + 'cliente';
+            console.log(msg);
         });
 
         request.fail(function (jqXHR, textStatus) {
@@ -85,6 +95,35 @@
 
     function validadarDados(validar) {
         document.querySelector(validar).textContent = 'Campo obrigatório*';
+    }
+
+    function buscarCep() {
+        var cep = $('#cep_cliente').val();
+        var request = $.ajax({
+            url: "http://viacep.com.br/ws/" + cep + "/json/",
+            method: "GET",
+            dataType: "json"
+        });
+
+        request.done(function (res) {
+//            console.log(res.cep);
+            if (typeof res.cep !== 'undefined') {
+                $('#endereco_cliente').val(res.logradouro);
+                $('#bairro_cliente').val(res.bairro);
+                $('#cidade_cliente').val(res.localidade);
+                $('#estado_cliente').val(res.uf);
+
+                $('#numero_cliente').focus();
+            } else {
+                alert('CEP não existe.');
+            }
+
+        });
+
+        request.fail(function (jqXHR, textStatus) {
+            console.log(jqXHR, textStatus);
+            alert("CEP DIGITADO PROVAVELMENTE NÃO É DO BRASIL. (cepCliente): " + textStatus);
+        });
     }
 
 </script>

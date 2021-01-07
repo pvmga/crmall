@@ -10,7 +10,7 @@ class Cliente_models extends MY_Model {
     }
 
     public function listaClientes($codigoCliente) {
-        $where = ($codigoCliente == 0) ? '' : " where codigo = " . $codigoCliente;
+        $where = ($codigoCliente == 0) ? '' : " where codigo = {$codigoCliente}";
         $sql = "select *
             from clientes
             $where";
@@ -21,7 +21,7 @@ class Cliente_models extends MY_Model {
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $cliente) {
 
-                $excluirCliente = 'visualizarChamado(' . $cliente['codigo'] . ')';
+                $excluirCliente = 'excluirCliente(' . $cliente['codigo'] . ')';
                 $alterarCliente = base_url().'formulario_cadastro/' . $cliente['codigo'];
 
                 $data['data'][] = [
@@ -57,6 +57,13 @@ class Cliente_models extends MY_Model {
         $this->db->where('codigo', $cod_cliente);
         $query = $this->db->update('clientes', $dados);
         return $query;
+    }
+
+    public function excluirCliente($codigoCliente) {
+        $sql = "delete from clientes
+                where
+                    codigo = {$codigoCliente}";
+        return $this->db->query($sql);
     }
     
 }

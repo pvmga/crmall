@@ -81,9 +81,9 @@
         });
 
         request.done(function (msg) {
-            //alert('Salvo com sucesso!');
-            //location.href = URL + 'cliente';
-            console.log(msg);
+            alert('Salvo com sucesso!');
+            location.href = URL + 'cliente';
+            //console.log(msg);
         });
 
         request.fail(function (jqXHR, textStatus) {
@@ -125,7 +125,6 @@
             alert("CEP DIGITADO PROVAVELMENTE NÃO É DO BRASIL. (cepCliente): " + textStatus);
         });
     }
-
 </script>
 
 </body>

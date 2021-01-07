@@ -9,7 +9,7 @@ class MY_Controller extends CI_Controller {
 
     public function formatarData($data) {
         $str = explode('/', $data);
-        return $str[0].'-'.$str[1].'-'.$str[2];
+        return $str[2].$str[1].$str[0];
     }
 
 }

@@ -68,7 +68,8 @@ class Cliente extends MY_Controller {
             'cidade' => $dados['cidade_cliente'],
         );
 
-        
+        //echo json_encode($cliente);
+        //exit();
 
         if ($dados['codigo_cliente'] == 0) {
             $res = $this->cliente_models->insertClienteModels($cliente);
@@ -86,6 +87,15 @@ class Cliente extends MY_Controller {
 
         $data['dadosCliente'] = $this->cliente_models->listaClientes($codigoCliente);
         echo json_encode($data);
+    }
+
+    public function excluirCliente() {
+        $this->load->model('cliente_models');
+
+        $codigoCliente = $this->input->post('codigo_cliente');
+
+        $res = $this->cliente_models->excluirCliente($codigoCliente);
+        echo json_encode($res);
     }
 
 }
